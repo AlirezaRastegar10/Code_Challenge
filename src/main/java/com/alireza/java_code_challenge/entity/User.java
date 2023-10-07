@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "users", uniqueConstraints = {
         @UniqueConstraint(name = "UniqueNationalCode&Email&Role",
-        columnNames = {"national_code","email","role"})
+        columnNames = {"nationalCode","email","role"})
 })
 @Entity
 public class User {
