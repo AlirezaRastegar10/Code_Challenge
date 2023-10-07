@@ -34,6 +34,7 @@ public class User {
     LocalDate dateOfBirth;
     Integer age;
     String email;
+    String password;
 
     @Enumerated(EnumType.STRING)
     Role role;
