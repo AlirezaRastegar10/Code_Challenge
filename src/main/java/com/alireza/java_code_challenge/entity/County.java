@@ -1,12 +1,11 @@
 package com.alireza.java_code_challenge.entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,4 +21,10 @@ public class County {
     Long id;
 
     String name;
+
+    @ManyToOne
+    Province province;
+
+    @OneToMany(mappedBy = "county")
+    List<City> cityList;
 }
