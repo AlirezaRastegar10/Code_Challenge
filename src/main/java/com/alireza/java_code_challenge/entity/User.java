@@ -35,7 +35,7 @@ public class User implements UserDetails {
 
     String firstname;
     String lastname;
-    Long nationalCode;
+    String nationalCode;
     LocalDate dateOfBirth;
     Integer age;
     String email;
