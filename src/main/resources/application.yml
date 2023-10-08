@@ -28,3 +28,10 @@ spring:
     redis:
       host: localhost
       port: 6379
+
+#JWT_CONFIG
+application:
+  security:
+    jwt:
+      secret-key: ojuupdT7c1dcSYMIS58BHGFswMYDlCJa1cS5hKFRAPuX9rx0Me5obp1W9jhhWmyE
+      expiration: 86400000
