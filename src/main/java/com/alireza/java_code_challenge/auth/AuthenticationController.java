@@ -1,6 +1,7 @@
 package com.alireza.java_code_challenge.auth;
 
 
+import com.alireza.java_code_challenge.dto.auth.AuthenticationRequest;
 import com.alireza.java_code_challenge.dto.auth.AuthenticationResponse;
 import com.alireza.java_code_challenge.dto.auth.RegisterRequest;
 import com.alireza.java_code_challenge.dto.auth.RegisterResponse;
@@ -24,5 +25,10 @@ public class AuthenticationController {
     @PostMapping("/confirm")
     public ResponseEntity<AuthenticationResponse> confirmRegistration(@RequestParam String email, @RequestParam String confirmationCode) {
         return ResponseEntity.ok(service.confirmRegistration(email, confirmationCode));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<AuthenticationResponse> login(@Valid @RequestBody AuthenticationRequest request) {
+        return ResponseEntity.ok(service.login(request));
     }
 }
