@@ -6,6 +6,8 @@ import com.alireza.java_code_challenge.dto.auth.AuthenticationRequest;
 import com.alireza.java_code_challenge.dto.auth.AuthenticationResponse;
 import com.alireza.java_code_challenge.dto.auth.RegisterRequest;
 import com.alireza.java_code_challenge.dto.auth.RegisterResponse;
+import com.alireza.java_code_challenge.entity.Token;
+import com.alireza.java_code_challenge.entity.User;
 import com.alireza.java_code_challenge.entity.enumeration.Status;
 import com.alireza.java_code_challenge.exceptions.confirmationcode.ConfirmationCodeExpiredException;
 import com.alireza.java_code_challenge.exceptions.confirmationcode.ConfirmationCodeInvalidException;
@@ -29,6 +31,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
+import static com.alireza.java_code_challenge.entity.enumeration.TokenType.BEARER;
+
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -42,6 +46,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final ConfirmationCodeServiceImpl confirmationCodeService;
     private final AuthenticationManager authenticationManager;
+    private final TokenRepository tokenRepository;
 
     @Transactional(rollbackFor = Exception.class)
     public RegisterResponse register(RegisterRequest request) {
@@ -76,7 +81,7 @@ public class AuthenticationService {
                 () -> new UsernameNotFoundException("no user found with this email: " + email)
         );
 
-        if (user.getStatus() == Status.ACCEPTED || user.getStatus() == Status.INACTIVE) {
+        if (user.getStatus() != Status.NEW) {
             throw new UserAcceptedException("You have already verified your account");
         }
 
@@ -92,12 +97,36 @@ public class AuthenticationService {
 
         // Update user status to "accepted"
         user.setStatus(Status.ACCEPTED);
-        userRepository.save(user);
+        var savedUser = userRepository.save(user);
 
         var jwtToken = jwtService.generateToken(user);
+        saveUserToken(savedUser, jwtToken);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
+    }
+
+    private void revokeAllUserTokens(User user) {
+        var validUserTokens = tokenRepository.findAllValidTokensByUser(user.getId());
+        if(validUserTokens.isEmpty()) {
+            return;
+        }
+        validUserTokens.forEach(t -> {
+            t.setExpired(true);
+            t.setRevoked(true);
+        });
+        tokenRepository.saveAll(validUserTokens);
+    }
+
+    private void saveUserToken(User user, String jwtToken) {
+        var token = Token.builder()
+                .user(user)
+                .token(jwtToken)
+                .type(BEARER)
+                .revoked(false)
+                .expired(false)
+                .build();
+        tokenRepository.save(token);
     }
 
     public AuthenticationResponse login(AuthenticationRequest request) {
@@ -119,7 +148,8 @@ public class AuthenticationService {
         }
 
         var jwtToken = jwtService.generateToken(user);
-
+        revokeAllUserTokens(user);
+        saveUserToken(user, jwtToken);
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
