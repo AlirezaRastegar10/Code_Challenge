@@ -4,6 +4,7 @@ package com.alireza.java_code_challenge.dto.auth;
 import com.alireza.java_code_challenge.dto.address.RegisterAddress;
 import com.alireza.java_code_challenge.utils.annotations.dateofbirth.ValidDateOfBirth;
 import com.alireza.java_code_challenge.utils.annotations.nationalcode.IranianNationalCode;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -44,5 +45,6 @@ public class RegisterRequest {
     String password;
 
     @NotNull(message = "the address must not be empty.")
+    @Valid
     RegisterAddress address;
 }
