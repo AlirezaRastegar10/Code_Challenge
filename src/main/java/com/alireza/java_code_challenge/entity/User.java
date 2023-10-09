@@ -39,6 +39,7 @@ public class User implements UserDetails {
     Integer age;
     String email;
     String password;
+    String confirmationCode;
 
     @Enumerated(EnumType.STRING)
     Role role;
