@@ -2,22 +2,31 @@ package com.alireza.java_code_challenge.service.user;
 
 
 import com.alireza.java_code_challenge.dto.auth.RegisterRequest;
+import com.alireza.java_code_challenge.dto.user.AllUserDto;
 import com.alireza.java_code_challenge.entity.Address;
 import com.alireza.java_code_challenge.entity.User;
 import com.alireza.java_code_challenge.entity.enumeration.Role;
 import com.alireza.java_code_challenge.entity.enumeration.Status;
+import com.alireza.java_code_challenge.mappers.UserMapperImpl;
+import com.alireza.java_code_challenge.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final UserMapperImpl userMapper;
 
     @Override
     public User create(RegisterRequest request, Address address) {
@@ -33,5 +42,21 @@ public class UserServiceImpl implements UserService {
                 .status(Status.NEW)
                 .address(address)
                 .build();
+    }
+
+    @Override
+    public Page<AllUserDto> findUsersWithPagination(int page, int size) {
+        PageRequest pageable = PageRequest.of(page, size);
+        Page<User> usersPage = userRepository.findAll(pageable);
+
+        var userList = usersPage.getContent().stream().toList();
+        var userResponses = userMapper.userListToUserDtoList(userList);
+
+        return new PageImpl<>(userResponses, pageable, usersPage.getTotalElements());
+    }
+
+    @Override
+    public List<AllUserDto> findAll() {
+        return userMapper.userListToUserDtoList(userRepository.findAll());
     }
 }
