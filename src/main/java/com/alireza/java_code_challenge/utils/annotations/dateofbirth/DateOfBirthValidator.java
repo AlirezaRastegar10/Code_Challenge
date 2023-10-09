@@ -19,7 +19,7 @@ public class DateOfBirthValidator implements ConstraintValidator<ValidDateOfBirt
         }
 
         try {
-            LocalDate dateOfBirth = LocalDate.parse(dateOfBirthStr, DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+            LocalDate dateOfBirth = LocalDate.parse(dateOfBirthStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
             LocalDate currentDate = LocalDate.now();
             LocalDate maxBirthDate = currentDate.minusYears(100);
