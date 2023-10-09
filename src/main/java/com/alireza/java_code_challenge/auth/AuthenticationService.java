@@ -2,6 +2,7 @@ package com.alireza.java_code_challenge.auth;
 
 
 import com.alireza.java_code_challenge.config.JwtService;
+import com.alireza.java_code_challenge.dto.auth.AuthenticationRequest;
 import com.alireza.java_code_challenge.dto.auth.AuthenticationResponse;
 import com.alireza.java_code_challenge.dto.auth.RegisterRequest;
 import com.alireza.java_code_challenge.dto.auth.RegisterResponse;
@@ -20,6 +21,8 @@ import com.alireza.java_code_challenge.service.province.ProvinceServiceImpl;
 import com.alireza.java_code_challenge.service.user.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +41,7 @@ public class AuthenticationService {
     private final CityServiceImpl cityService;
     private final JwtService jwtService;
     private final ConfirmationCodeServiceImpl confirmationCodeService;
+    private final AuthenticationManager authenticationManager;
 
     @Transactional(rollbackFor = Exception.class)
     public RegisterResponse register(RegisterRequest request) {
@@ -91,6 +95,31 @@ public class AuthenticationService {
         userRepository.save(user);
 
         var jwtToken = jwtService.generateToken(user);
+        return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .build();
+    }
+
+    public AuthenticationResponse login(AuthenticationRequest request) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(), request.getPassword())
+        );
+        var user = userRepository.findByEmail(request.getEmail()).orElseThrow(
+                () -> new UsernameNotFoundException("no user found with email: " + request.getEmail())
+        );
+
+        if (user.getStatus() == Status.NEW) {
+            throw new UserAcceptedException("Please confirm your account first");
+        }
+
+        if (user.getStatus() == Status.INACTIVE) {
+            user.setStatus(Status.ACCEPTED);
+            userRepository.save(user);
+        }
+
+        var jwtToken = jwtService.generateToken(user);
+
         return AuthenticationResponse.builder()
                 .token(jwtToken)
                 .build();
