@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -34,7 +35,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     private final CallbackFactory callbackFactory;
 
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, @NonNull HttpHeaders headers, @NonNull HttpStatusCode status, @NonNull WebRequest request) {
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(@NonNull MethodArgumentNotValidException ex, @NonNull HttpHeaders headers, @NonNull HttpStatusCode status, @NonNull WebRequest request) {
+
+        callbackFactory.handleException(ex);
+
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) ->{
 
@@ -176,6 +180,21 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 httpStatus.value(),
                 httpStatus.name(),
                 exception.getMessage(),
+                request.getRequestURI());
+        return new ResponseEntity<>(responseException, httpStatus);
+    }
+
+    @ExceptionHandler(value = BadCredentialsException.class)
+    public ResponseEntity<ResponseException> badCredentialsException(BadCredentialsException exception, HttpServletRequest request) {
+
+        callbackFactory.handleException(exception);
+
+        HttpStatus httpStatus = HttpStatus.FORBIDDEN;
+        ResponseException responseException = new ResponseException(
+                new Timestamp(System.currentTimeMillis()),
+                httpStatus.value(),
+                httpStatus.name(),
+                "Email or password does not match your information.",
                 request.getRequestURI());
         return new ResponseEntity<>(responseException, httpStatus);
     }
