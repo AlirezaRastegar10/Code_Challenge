@@ -5,6 +5,7 @@ import com.alireza.java_code_challenge.dto.exception.ResponseException;
 import com.alireza.java_code_challenge.exceptions.api.ApiException;
 import com.alireza.java_code_challenge.exceptions.confirmationcode.ConfirmationCodeExpiredException;
 import com.alireza.java_code_challenge.exceptions.confirmationcode.ConfirmationCodeInvalidException;
+import com.alireza.java_code_challenge.exceptions.password.PasswordNotMatchException;
 import com.alireza.java_code_challenge.exceptions.user.UserAcceptedException;
 import com.alireza.java_code_challenge.exceptions.user.UserExistException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -206,6 +207,21 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         callbackFactory.handleException(exception);
 
         HttpStatus httpStatus = HttpStatus.FORBIDDEN;
+        ResponseException responseException = new ResponseException(
+                new Timestamp(System.currentTimeMillis()),
+                httpStatus.value(),
+                httpStatus.name(),
+                exception.getMessage(),
+                request.getRequestURI());
+        return new ResponseEntity<>(responseException, httpStatus);
+    }
+
+    @ExceptionHandler(value = PasswordNotMatchException.class)
+    public ResponseEntity<ResponseException> passwordNotMatchException(PasswordNotMatchException exception, HttpServletRequest request) {
+
+        callbackFactory.handleException(exception);
+
+        HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
         ResponseException responseException = new ResponseException(
                 new Timestamp(System.currentTimeMillis()),
                 httpStatus.value(),
