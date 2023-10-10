@@ -2,11 +2,15 @@ package com.alireza.java_code_challenge.service.user;
 
 
 import com.alireza.java_code_challenge.dto.auth.RegisterRequest;
+import com.alireza.java_code_challenge.dto.user.PasswordRequest;
+import com.alireza.java_code_challenge.dto.user.PasswordResponse;
 import com.alireza.java_code_challenge.dto.user.UserDto;
 import com.alireza.java_code_challenge.entity.Address;
 import com.alireza.java_code_challenge.entity.User;
 import com.alireza.java_code_challenge.entity.enumeration.Role;
 import com.alireza.java_code_challenge.entity.enumeration.Status;
+import com.alireza.java_code_challenge.exceptions.password.PasswordNotMatchException;
+import com.alireza.java_code_challenge.exceptions.user.UserAcceptedException;
 import com.alireza.java_code_challenge.mappers.UserMapperImpl;
 import com.alireza.java_code_challenge.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -80,5 +84,26 @@ public class UserServiceImpl implements UserService {
         );
         user.setStatus(Status.INACTIVE);
         userRepository.save(user);
+    }
+
+    @Override
+    public PasswordResponse changePassword(PasswordRequest request) {
+        var user = userRepository.findByEmailAndRole(request.getEmail(), Role.USER).orElseThrow(
+                () -> new UsernameNotFoundException("no user found with this email: " + request.getEmail())
+        );
+
+        if (user.getStatus() == Status.INACTIVE) {
+            throw new UserAcceptedException("Please login first.");
+        }
+
+        if (!request.getPassword().equals(request.getRepeatPassword())) {
+            throw new PasswordNotMatchException("The password does not match its repetition.");
+        }
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        userRepository.save(user);
+
+        return PasswordResponse.builder()
+                .message("Password changed successfully.")
+                .build();
     }
 }
