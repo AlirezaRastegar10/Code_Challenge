@@ -16,4 +16,6 @@ public interface UserMapper {
     @Mapping(source = "address.province.countyList", target = "provinceDto.countyList")
     @Mapping(source = "address.province.countyList.cityList", target = "provinceDto.countyList.cityList")
     List<UserDto> userListToUserDtoList(List<User> userList);
+
+    UserDto userToUserDto(User user);
 }
