@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
-public class AllUserDto {
+public class UserDto {
 
     Long id;
     String firstname;
