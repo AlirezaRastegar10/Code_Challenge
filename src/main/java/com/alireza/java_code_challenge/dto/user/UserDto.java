@@ -7,6 +7,7 @@ import com.alireza.java_code_challenge.entity.enumeration.Status;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
-public class UserDto {
+public class UserDto implements Serializable {
 
     Long id;
     String firstname;

@@ -10,13 +10,15 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.io.Serializable;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
-public class RegisterProvince {
+public class RegisterProvince implements Serializable {
 
     @NotBlank(message = "province name cannot be empty.")
     @Size(min = 2, message = "province name should have at least 2 characters.")

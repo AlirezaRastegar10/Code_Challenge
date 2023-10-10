@@ -9,13 +9,15 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.io.Serializable;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
-public class RegisterAddress {
+public class RegisterAddress implements Serializable {
 
 
     @NotBlank(message = "address description cannot be empty.")

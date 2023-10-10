@@ -5,6 +5,7 @@ import com.alireza.java_code_challenge.dto.county.CountyDto;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.io.Serializable;
 import java.util.List;
 
 @AllArgsConstructor
@@ -13,7 +14,7 @@ import java.util.List;
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
-public class ProvinceDto {
+public class ProvinceDto implements Serializable {
 
     Long id;
     String name;
