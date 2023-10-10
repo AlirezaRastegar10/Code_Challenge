@@ -1,10 +1,11 @@
 package com.alireza.java_code_challenge.controller;
 
 
+import com.alireza.java_code_challenge.entity.enumeration.Role;
 import com.alireza.java_code_challenge.service.user.UserServiceImpl;
+import com.alireza.java_code_challenge.annotations.authorization.HasEndpointAuthorities;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,7 +19,7 @@ public class UserController {
     private final UserServiceImpl userService;
 
     @GetMapping("/find-all")
-    @Secured("ROLE_USER")
+    @HasEndpointAuthorities(authorities = Role.ADMIN)
     public ResponseEntity<Object> findAll(@RequestParam(name = "page", required = false) Integer page,
                                           @RequestParam(name = "size", required = false) Integer size) {
 
