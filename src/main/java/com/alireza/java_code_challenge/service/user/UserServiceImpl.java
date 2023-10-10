@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -58,5 +59,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> findAll() {
         return userMapper.userListToUserDtoList(userRepository.findAll());
+    }
+
+    @Override
+    public UserDto findById(Long id) {
+        var user = userRepository.findById(id).orElseThrow(
+                () -> new UsernameNotFoundException("No user found with this id: " + id)
+        );
+        return userMapper.userToUserDto(user);
     }
 }

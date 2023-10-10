@@ -13,4 +13,5 @@ public interface UserService {
     User create(RegisterRequest request, Address address);
     Page<UserDto> findUsersWithPagination(int page, int size);
     List<UserDto> findAll();
+    UserDto findById(Long id);
 }
