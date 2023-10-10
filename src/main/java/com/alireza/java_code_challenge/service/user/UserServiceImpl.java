@@ -72,4 +72,13 @@ public class UserServiceImpl implements UserService {
         );
         return userMapper.userToUserDto(user);
     }
+
+    @Override
+    public void delete(Long id) {
+        var user = userRepository.findById(id).orElseThrow(
+                () -> new UsernameNotFoundException("No user found with this id: " + id)
+        );
+        user.setStatus(Status.INACTIVE);
+        userRepository.save(user);
+    }
 }
