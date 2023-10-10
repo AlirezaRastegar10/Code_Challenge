@@ -2,8 +2,8 @@ package com.alireza.java_code_challenge.dto.auth;
 
 
 import com.alireza.java_code_challenge.dto.address.RegisterAddress;
-import com.alireza.java_code_challenge.utils.annotations.dateofbirth.ValidDateOfBirth;
-import com.alireza.java_code_challenge.utils.annotations.nationalcode.IranianNationalCode;
+import com.alireza.java_code_challenge.annotations.dateofbirth.ValidDateOfBirth;
+import com.alireza.java_code_challenge.annotations.nationalcode.IranianNationalCode;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.*;
