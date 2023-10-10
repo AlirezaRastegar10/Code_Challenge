@@ -22,8 +22,8 @@ import java.util.List;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "users", uniqueConstraints = {
-        @UniqueConstraint(name = "UniqueNationalCode&Email&Role",
-        columnNames = {"nationalCode","email","role"})
+        @UniqueConstraint(name = "UniqueNationalCode&Email",
+        columnNames = {"nationalCode","email"})
 })
 @Entity
 public class User implements UserDetails {
