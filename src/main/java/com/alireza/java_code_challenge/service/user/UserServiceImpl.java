@@ -2,7 +2,7 @@ package com.alireza.java_code_challenge.service.user;
 
 
 import com.alireza.java_code_challenge.dto.auth.RegisterRequest;
-import com.alireza.java_code_challenge.dto.user.AllUserDto;
+import com.alireza.java_code_challenge.dto.user.UserDto;
 import com.alireza.java_code_challenge.entity.Address;
 import com.alireza.java_code_challenge.entity.User;
 import com.alireza.java_code_challenge.entity.enumeration.Role;
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<AllUserDto> findUsersWithPagination(int page, int size) {
+    public Page<UserDto> findUsersWithPagination(int page, int size) {
         PageRequest pageable = PageRequest.of(page, size);
         Page<User> usersPage = userRepository.findAll(pageable);
 
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<AllUserDto> findAll() {
+    public List<UserDto> findAll() {
         return userMapper.userListToUserDtoList(userRepository.findAll());
     }
 }
