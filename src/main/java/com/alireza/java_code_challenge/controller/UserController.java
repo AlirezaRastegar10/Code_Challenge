@@ -1,10 +1,13 @@
 package com.alireza.java_code_challenge.controller;
 
 
+import com.alireza.java_code_challenge.dto.user.PasswordRequest;
+import com.alireza.java_code_challenge.dto.user.PasswordResponse;
 import com.alireza.java_code_challenge.dto.user.UserDto;
 import com.alireza.java_code_challenge.entity.enumeration.Role;
 import com.alireza.java_code_challenge.service.user.UserServiceImpl;
 import com.alireza.java_code_challenge.annotations.authorization.HasEndpointAuthorities;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,5 +43,11 @@ public class UserController {
     @HasEndpointAuthorities(authorities = Role.ADMIN)
     public void delete(@PathVariable Long id) {
         userService.delete(id);
+    }
+
+    @PutMapping("/change-password")
+    @HasEndpointAuthorities(authorities = Role.USER)
+    public ResponseEntity<PasswordResponse> changePassword(@Valid @RequestBody PasswordRequest request) {
+        return ResponseEntity.ok(userService.changePassword(request));
     }
 }
