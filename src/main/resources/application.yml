@@ -15,6 +15,10 @@ spring:
     database: mysql
     database-platform: org.hibernate.dialect.MySQLDialect
 
+#APP_CONFIG
+  application:
+    name: code_challenge
+
 #REDIS_CONFIG
   cache:
     type: redis
