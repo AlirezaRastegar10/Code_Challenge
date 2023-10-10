@@ -1,4 +1,4 @@
-package com.alireza.java_code_challenge.utils.annotations.dateofbirth;
+package com.alireza.java_code_challenge.annotations.dateofbirth;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

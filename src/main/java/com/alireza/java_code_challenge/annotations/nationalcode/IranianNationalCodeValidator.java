@@ -1,4 +1,4 @@
-package com.alireza.java_code_challenge.utils.annotations.nationalcode;
+package com.alireza.java_code_challenge.annotations.nationalcode;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
