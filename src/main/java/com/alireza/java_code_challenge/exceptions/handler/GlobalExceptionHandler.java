@@ -2,6 +2,7 @@ package com.alireza.java_code_challenge.exceptions.handler;
 
 
 import com.alireza.java_code_challenge.dto.exception.ResponseException;
+import com.alireza.java_code_challenge.exceptions.api.ApiException;
 import com.alireza.java_code_challenge.exceptions.confirmationcode.ConfirmationCodeExpiredException;
 import com.alireza.java_code_challenge.exceptions.confirmationcode.ConfirmationCodeInvalidException;
 import com.alireza.java_code_challenge.exceptions.user.UserAcceptedException;
@@ -195,6 +196,21 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 httpStatus.value(),
                 httpStatus.name(),
                 "Email or password does not match your information.",
+                request.getRequestURI());
+        return new ResponseEntity<>(responseException, httpStatus);
+    }
+
+    @ExceptionHandler(value = ApiException.class)
+    public ResponseEntity<ResponseException> apiException(ApiException exception, HttpServletRequest request) {
+
+        callbackFactory.handleException(exception);
+
+        HttpStatus httpStatus = HttpStatus.FORBIDDEN;
+        ResponseException responseException = new ResponseException(
+                new Timestamp(System.currentTimeMillis()),
+                httpStatus.value(),
+                httpStatus.name(),
+                exception.getMessage(),
                 request.getRequestURI());
         return new ResponseEntity<>(responseException, httpStatus);
     }
