@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -51,8 +52,8 @@ public class UserController {
 
     @PutMapping("/change-password")
     @HasEndpointAuthorities(authorities = {Role.USER, Role.ADMIN})
-    public ResponseEntity<UpdateResponse> changePassword(@Valid @RequestBody PasswordRequest request) {
-        return ResponseEntity.ok(userService.changePassword(request));
+    public ResponseEntity<UpdateResponse> changePassword(@Valid @RequestBody PasswordRequest request, Principal connectedUser) {
+        return ResponseEntity.ok(userService.changePassword(request, connectedUser));
     }
 
     @PutMapping("/update")
