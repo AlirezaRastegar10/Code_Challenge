@@ -9,6 +9,8 @@ import com.alireza.java_code_challenge.repository.CountyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class CountyServiceImpl implements CountyService {
@@ -21,5 +23,10 @@ public class CountyServiceImpl implements CountyService {
         var county = countyMapper.countyDtoToCounty(registerCounty);
         county.setProvince(province);
         return countyRepository.save(county);
+    }
+
+    @Override
+    public Optional<County> findByProvinceId(Long provinceId) {
+        return countyRepository.findByProvinceId(provinceId);
     }
 }
