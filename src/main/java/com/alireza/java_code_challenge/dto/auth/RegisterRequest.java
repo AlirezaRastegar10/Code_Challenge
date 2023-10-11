@@ -9,13 +9,15 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.io.Serializable;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Builder
-public class RegisterRequest {
+public class RegisterRequest implements Serializable {
 
     @NotBlank(message = "firstname cannot be empty.")
     @Size(min = 3, message = "firstname should have at least 3 characters.")
