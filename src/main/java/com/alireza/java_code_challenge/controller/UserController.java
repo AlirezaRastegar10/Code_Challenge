@@ -13,6 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
@@ -57,5 +60,12 @@ public class UserController {
     public ResponseEntity<UpdateResponse> update(@RequestParam(name = "email") String email,
                                                  @Valid @RequestBody UpdateUserDto updateUserDto) {
         return ResponseEntity.ok(userService.update(email, updateUserDto));
+    }
+
+    @GetMapping("/count-by-city")
+    @HasEndpointAuthorities(authorities = Role.ADMIN)
+    public ResponseEntity<List<Map<String, Object>>> countUsersByCity(@RequestParam(name = "city", required = false) String city,
+                                                                      @RequestParam(name = "minAge", required = false) Integer minAge) {
+        return ResponseEntity.ok(userService.countUsersByCity(city, minAge));
     }
 }
