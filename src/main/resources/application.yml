@@ -33,9 +33,37 @@ spring:
       host: localhost
       port: 6379
 
+#ACTUATOR_CONFIG
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+      base-path: '/admin'
+  endpoint:
+    health:
+      show-details: always
+  info:
+    env:
+      enabled: true
+
 #JWT_CONFIG
 application:
   security:
     jwt:
       secret-key: ojuupdT7c1dcSYMIS58BHGFswMYDlCJa1cS5hKFRAPuX9rx0Me5obp1W9jhhWmyE
       expiration: 86400000
+
+#LOG_CONFIG
+logging:
+  level:
+    org:
+      springframework:
+        security: 'DEBUG'
+
+#INFO_CONFIG
+info:
+  app:
+    name: 'User Profile Application'
+    description: 'This is an user manager application'
+    version: 1.0
