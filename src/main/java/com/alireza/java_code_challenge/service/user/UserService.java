@@ -10,6 +10,7 @@ import com.alireza.java_code_challenge.entity.User;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
+import java.util.Map;
 
 public interface UserService {
 
@@ -20,4 +21,6 @@ public interface UserService {
     void delete(Long id);
     UpdateResponse changePassword(PasswordRequest request);
     UpdateResponse update(String email, UpdateUserDto updateUserDto);
+
+    List<Map<String, Object>> countUsersByCity(String city, Integer minAge);
 }

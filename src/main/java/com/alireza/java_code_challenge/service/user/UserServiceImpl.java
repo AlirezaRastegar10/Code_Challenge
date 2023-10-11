@@ -36,6 +36,8 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -176,5 +178,15 @@ public class UserServiceImpl implements UserService {
 
         // Set County in Province
         province.setCountyList(Collections.singletonList(county));
+    }
+
+    @CachePut(value = "cache1", key = "'user_' + #city + #minAge")
+    @Override
+    public List<Map<String, Object>> countUsersByCity(String city, Integer minAge) {
+        var result = userRepository.countUsersByCityAndAge(city, minAge);
+
+        return result.stream()
+                .map(arr -> Map.of("city", arr[0], "userCount", arr[1]))
+                .collect(Collectors.toList());
     }
 }
