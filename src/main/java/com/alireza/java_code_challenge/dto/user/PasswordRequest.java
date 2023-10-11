@@ -1,7 +1,6 @@
 package com.alireza.java_code_challenge.dto.user;
 
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -18,17 +17,18 @@ import java.io.Serializable;
 @Builder
 public class PasswordRequest implements Serializable {
 
-    @NotBlank(message = "email cannot be empty.")
-    @Email(message = "the email pattern is incorrect.")
-    String email;
+    @NotBlank(message = "currentPassword cannot be empty.")
+    @Size(min = 8, max = 8, message = "currentPassword must be 8 characters.")
+    @Pattern(regexp = "^(?=.*?\\d)(?=.*?[a-zA-Z])[a-zA-Z\\d]+$", message = "the currentPassword must contain numbers and letters.")
+    String currentPassword;
 
-    @NotBlank(message = "password cannot be empty.")
-    @Size(min = 8, max = 8, message = "password must be 8 characters.")
-    @Pattern(regexp = "^(?=.*?\\d)(?=.*?[a-zA-Z])[a-zA-Z\\d]+$", message = "the password must contain numbers and letters.")
-    String password;
+    @NotBlank(message = "newPassword cannot be empty.")
+    @Size(min = 8, max = 8, message = "newPassword must be 8 characters.")
+    @Pattern(regexp = "^(?=.*?\\d)(?=.*?[a-zA-Z])[a-zA-Z\\d]+$", message = "the newPassword must contain numbers and letters.")
+    String newPassword;
 
-    @NotBlank(message = "repeat password cannot be empty.")
-    @Size(min = 8, max = 8, message = "repeat password must be 8 characters.")
-    @Pattern(regexp = "^(?=.*?\\d)(?=.*?[a-zA-Z])[a-zA-Z\\d]+$", message = "the repeat password must contain numbers and letters.")
-    String repeatPassword;
+    @NotBlank(message = "confirmationPassword cannot be empty.")
+    @Size(min = 8, max = 8, message = "confirmationPassword must be 8 characters.")
+    @Pattern(regexp = "^(?=.*?\\d)(?=.*?[a-zA-Z])[a-zA-Z\\d]+$", message = "the confirmationPassword must contain numbers and letters.")
+    String confirmationPassword;
 }
