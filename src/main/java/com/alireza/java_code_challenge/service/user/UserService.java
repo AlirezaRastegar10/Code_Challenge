@@ -9,6 +9,7 @@ import com.alireza.java_code_challenge.entity.Address;
 import com.alireza.java_code_challenge.entity.User;
 import org.springframework.data.domain.Page;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ public interface UserService {
     List<UserDto> findAll();
     UserDto findById(Long id);
     void delete(Long id);
-    UpdateResponse changePassword(PasswordRequest request);
+    UpdateResponse changePassword(PasswordRequest request, Principal connectedUser);
     UpdateResponse update(String email, UpdateUserDto updateUserDto);
 
     List<Map<String, Object>> countUsersByCity(String city, Integer minAge);

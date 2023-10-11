@@ -27,11 +27,13 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Collections;
@@ -103,19 +105,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UpdateResponse changePassword(PasswordRequest request) {
-        var user = userRepository.findByEmailAndRole(request.getEmail(), Role.USER).orElseThrow(
-                () -> new UsernameNotFoundException("no user found with this email: " + request.getEmail())
-        );
+    public UpdateResponse changePassword(PasswordRequest request, Principal connectedUser) {
+        var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
 
         if (user.getStatus() == Status.INACTIVE) {
             throw new UserAcceptedException("Please login first.");
         }
 
-        if (!request.getPassword().equals(request.getRepeatPassword())) {
-            throw new PasswordNotMatchException("The password does not match its repetition.");
+        // check if the current password is correct
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+            throw new PasswordNotMatchException("Wrong password");
         }
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        // check if the two new passwords are the same
+        if (!request.getNewPassword().equals(request.getConfirmationPassword())) {
+            throw new PasswordNotMatchException("Password are not the same");
+        }
+
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         userRepository.save(user);
 
         return UpdateResponse.builder()
