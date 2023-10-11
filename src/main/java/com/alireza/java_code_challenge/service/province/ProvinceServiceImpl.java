@@ -8,6 +8,8 @@ import com.alireza.java_code_challenge.repository.ProvinceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class ProvinceServiceImpl implements ProvinceService {
@@ -19,5 +21,10 @@ public class ProvinceServiceImpl implements ProvinceService {
     public Province save(RegisterProvince registerProvince) {
         var province = provinceMapper.provinceDtoToProvince(registerProvince);
         return provinceRepository.save(province);
+    }
+
+    @Override
+    public Optional<Province> findById(Long id) {
+        return provinceRepository.findById(id);
     }
 }
