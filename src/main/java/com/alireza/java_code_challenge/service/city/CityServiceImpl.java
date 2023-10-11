@@ -2,11 +2,14 @@ package com.alireza.java_code_challenge.service.city;
 
 
 import com.alireza.java_code_challenge.dto.city.RegisterCity;
+import com.alireza.java_code_challenge.entity.City;
 import com.alireza.java_code_challenge.entity.County;
 import com.alireza.java_code_challenge.mappers.CityMapperImpl;
 import com.alireza.java_code_challenge.repository.CityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,5 +23,10 @@ public class CityServiceImpl implements CityService {
         var city = cityMapper.cityDtoToCity(registerCity);
         city.setCounty(county);
         cityRepository.save(city);
+    }
+
+    @Override
+    public Optional<City> findByCountyId(Long countyId) {
+        return cityRepository.findByCountyId(countyId);
     }
 }
