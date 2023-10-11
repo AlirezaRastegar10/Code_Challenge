@@ -2,7 +2,8 @@ package com.alireza.java_code_challenge.service.user;
 
 import com.alireza.java_code_challenge.dto.auth.RegisterRequest;
 import com.alireza.java_code_challenge.dto.user.PasswordRequest;
-import com.alireza.java_code_challenge.dto.user.PasswordResponse;
+import com.alireza.java_code_challenge.dto.user.UpdateResponse;
+import com.alireza.java_code_challenge.dto.user.UpdateUserDto;
 import com.alireza.java_code_challenge.dto.user.UserDto;
 import com.alireza.java_code_challenge.entity.Address;
 import com.alireza.java_code_challenge.entity.User;
@@ -17,5 +18,6 @@ public interface UserService {
     List<UserDto> findAll();
     UserDto findById(Long id);
     void delete(Long id);
-    PasswordResponse changePassword(PasswordRequest request);
+    UpdateResponse changePassword(PasswordRequest request);
+    UpdateResponse update(String email, UpdateUserDto updateUserDto);
 }
