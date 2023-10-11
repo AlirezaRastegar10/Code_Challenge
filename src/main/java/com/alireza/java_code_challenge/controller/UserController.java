@@ -50,7 +50,7 @@ public class UserController {
         userService.delete(id);
     }
 
-    @PutMapping("/change-password")
+    @PatchMapping("/change-password")
     @HasEndpointAuthorities(authorities = {Role.USER, Role.ADMIN})
     public ResponseEntity<UpdateResponse> changePassword(@Valid @RequestBody PasswordRequest request, Principal connectedUser) {
         return ResponseEntity.ok(userService.changePassword(request, connectedUser));
