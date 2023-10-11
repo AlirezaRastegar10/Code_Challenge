@@ -2,7 +2,8 @@ package com.alireza.java_code_challenge.controller;
 
 
 import com.alireza.java_code_challenge.dto.user.PasswordRequest;
-import com.alireza.java_code_challenge.dto.user.PasswordResponse;
+import com.alireza.java_code_challenge.dto.user.UpdateResponse;
+import com.alireza.java_code_challenge.dto.user.UpdateUserDto;
 import com.alireza.java_code_challenge.dto.user.UserDto;
 import com.alireza.java_code_challenge.entity.enumeration.Role;
 import com.alireza.java_code_challenge.service.user.UserServiceImpl;
@@ -46,8 +47,15 @@ public class UserController {
     }
 
     @PutMapping("/change-password")
-    @HasEndpointAuthorities(authorities = Role.USER)
-    public ResponseEntity<PasswordResponse> changePassword(@Valid @RequestBody PasswordRequest request) {
+    @HasEndpointAuthorities(authorities = {Role.USER, Role.ADMIN})
+    public ResponseEntity<UpdateResponse> changePassword(@Valid @RequestBody PasswordRequest request) {
         return ResponseEntity.ok(userService.changePassword(request));
+    }
+
+    @PutMapping("/update")
+    @HasEndpointAuthorities(authorities = {Role.USER, Role.ADMIN})
+    public ResponseEntity<UpdateResponse> update(@RequestParam(name = "email") String email,
+                                                 @Valid @RequestBody UpdateUserDto updateUserDto) {
+        return ResponseEntity.ok(userService.update(email, updateUserDto));
     }
 }
