@@ -178,7 +178,7 @@ class UserControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(content);
         ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(userController).build().perform(requestBuilder);
-        actualPerformResult.andExpect(MockMvcResultMatchers.status().is(400));
+        actualPerformResult.andExpect(MockMvcResultMatchers.status().is(405));
     }
 
     /**
