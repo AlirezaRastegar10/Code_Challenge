@@ -1,0 +1,364 @@
+{
+	"info": {
+		"_postman_id": "c60a6d10-77cd-4f14-a182-585b9980130d",
+		"name": "code_challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20398640"
+	},
+	"item": [
+		{
+			"name": "register user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\":\"sina\",\r\n    \"lastname\":\"mohseni\",\r\n    \"nationalCode\":\"5180291501\",\r\n    \"password\":\"redstar1\",\r\n    \"dateOfBirth\":\"2002-01-22\",\r\n    \"email\":\"sina@gmail.com\",\r\n    \"address\":{\r\n        \"description\":\"guilan, rasht\",\r\n        \"province\":{\r\n            \"name\":\"guilan\",\r\n            \"county\":{\r\n                \"name\":\"rasht\",\r\n                \"city\":{\r\n                    \"name\":\"rasht\"\r\n                }\r\n            }\r\n        }\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/auth/register",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "confirm user register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/v1/auth/confirm?email=sina@gmail.com&confirmationCode=554907",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"confirm"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "sina@gmail.com"
+						},
+						{
+							"key": "confirmationCode",
+							"value": "554907"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"alireza@gmail.com\",\r\n    \"password\":\"redstar1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/auth/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGlyZXphQGdtYWlsLmNvbSIsImlhdCI6MTY5NzAxNTk1NywiZXhwIjoxNjk3MTAyMzU3fQ.jaRrgGOgv2qW6Jd8_xYrf5g7MJMb05rCkPMWd-cXt4I",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/v1/auth/logout",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "find all user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGlyZXphQGdtYWlsLmNvbSIsImlhdCI6MTY5NzA5ODM5OSwiZXhwIjoxNjk3MTg0Nzk5fQ.tZjLt9e1agzOXes0a8O8aLJf7hf-4MFjTDx89wRc_7Y",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/v1/users/find-all?page=0&size=10",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"find-all"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "find one user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGlyZXphQGdtYWlsLmNvbSIsImlhdCI6MTY5NzA5ODAwOSwiZXhwIjoxNjk3MTg0NDA5fQ.ocbwDxI_5cQ3-_b_51ANo-3VLe95-K8Xnj4r20bggyU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/v1/users/find-by-id/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"find-by-id",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGlyZXphQGdtYWlsLmNvbSIsImlhdCI6MTY5NzA5ODAwOSwiZXhwIjoxNjk3MTg0NDA5fQ.ocbwDxI_5cQ3-_b_51ANo-3VLe95-K8Xnj4r20bggyU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/v1/users/delete/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"delete",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "change user password",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGlyZXphQGdtYWlsLmNvbSIsImlhdCI6MTY5NzA5ODE4NCwiZXhwIjoxNjk3MTg0NTg0fQ.Ur5Vrn6o5Ogcrd0zOxUag4fX4LhDyKCrnUIpqZjrEnM",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"currentPassword\":\"redstar1\",\r\n    \"newPassword\":\"redstar2\",\r\n    \"confirmationPassword\":\"redstar2\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/users/change-password",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"change-password"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update user  information",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGlyZXphQGdtYWlsLmNvbSIsImlhdCI6MTY5NzA5ODI0MSwiZXhwIjoxNjk3MTg0NjQxfQ.GE2hvjZlE0qzvIXuwhoQwPteJ5N1W9Cr2gGj_ej2kBo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\":\"sina\",\r\n    \"lastname\":\"mohseni\",\r\n    \"address\":{\r\n        \"description\":\"tehran, iran\",\r\n        \"province\":{\r\n            \"name\":\"tehran\",\r\n            \"county\":{\r\n                \"name\":\"karaj\",\r\n                \"city\":{\r\n                    \"name\":\"qods\"\r\n                }\r\n            }\r\n        }\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/v1/users/update?email=alireza@gmail.com",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"update"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "alireza@gmail.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "count user by city or age",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGlyZXphQGdtYWlsLmNvbSIsImlhdCI6MTY5NzA5ODM5OSwiZXhwIjoxNjk3MTg0Nzk5fQ.tZjLt9e1agzOXes0a8O8aLJf7hf-4MFjTDx89wRc_7Y",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/v1/users/count-by-city?city=qods&minAge=18",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"count-by-city"
+					],
+					"query": [
+						{
+							"key": "city",
+							"value": "qods"
+						},
+						{
+							"key": "minAge",
+							"value": "18"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

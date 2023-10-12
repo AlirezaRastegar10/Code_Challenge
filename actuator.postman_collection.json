@@ -1,0 +1,158 @@
+{
+	"info": {
+		"_postman_id": "ccfedbbf-c839-417c-a16d-7cae0850829c",
+		"name": "actuator",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20398640"
+	},
+	"item": [
+		{
+			"name": "admin",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGlyZXphQGdtYWlsLmNvbSIsImlhdCI6MTY5NzA5ODM5OSwiZXhwIjoxNjk3MTg0Nzk5fQ.tZjLt9e1agzOXes0a8O8aLJf7hf-4MFjTDx89wRc_7Y",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/admin",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "beans",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGlyZXphQGdtYWlsLmNvbSIsImlhdCI6MTY5NzA5ODM5OSwiZXhwIjoxNjk3MTg0Nzk5fQ.tZjLt9e1agzOXes0a8O8aLJf7hf-4MFjTDx89wRc_7Y",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/beans",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"beans"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "health",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGlyZXphQGdtYWlsLmNvbSIsImlhdCI6MTY5NzA5ODM5OSwiZXhwIjoxNjk3MTg0Nzk5fQ.tZjLt9e1agzOXes0a8O8aLJf7hf-4MFjTDx89wRc_7Y",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "caches",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGlyZXphQGdtYWlsLmNvbSIsImlhdCI6MTY5NzA5ODM5OSwiZXhwIjoxNjk3MTg0Nzk5fQ.tZjLt9e1agzOXes0a8O8aLJf7hf-4MFjTDx89wRc_7Y",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/caches",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"caches"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "info",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGlyZXphQGdtYWlsLmNvbSIsImlhdCI6MTY5NzA5ODM5OSwiZXhwIjoxNjk3MTg0Nzk5fQ.tZjLt9e1agzOXes0a8O8aLJf7hf-4MFjTDx89wRc_7Y",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/info",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"info"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
