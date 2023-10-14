@@ -7,7 +7,6 @@ import com.alireza.java_code_challenge.entity.Province;
 import com.alireza.java_code_challenge.mappers.CountyMapperImpl;
 import com.alireza.java_code_challenge.repository.CountyRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -25,8 +24,6 @@ public class CountyServiceImpl implements CountyService {
         county.setProvince(province);
         return countyRepository.save(county);
     }
-
-    @CachePut(value = "cache1", key = "'county_' + #provinceId")
     @Override
     public Optional<County> findByProvinceId(Long provinceId) {
         return countyRepository.findByProvinceId(provinceId);
