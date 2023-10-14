@@ -23,7 +23,9 @@ import com.alireza.java_code_challenge.service.city.CityServiceImpl;
 import com.alireza.java_code_challenge.service.county.CountyServiceImpl;
 import com.alireza.java_code_challenge.service.province.ProvinceServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CachePut;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -43,6 +45,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     private final PasswordEncoder passwordEncoder;
@@ -68,9 +71,10 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
-    @CachePut(value = "cache1", key = "'users_' + #page + '_' + #size")
+    @Cacheable(value = "cache1", key = "'users_' + #page + '_' + #size")
     @Override
     public Page<UserDto> findUsersWithPagination(int page, int size) {
+        log.info("Fetching user from the findUsersWithPagination method.");  //Getting data from the database
         PageRequest pageable = PageRequest.of(page, size);
         Page<User> usersPage = userRepository.findAll(pageable);
 
@@ -80,21 +84,24 @@ public class UserServiceImpl implements UserService {
         return new PageImpl<>(userResponses, pageable, usersPage.getTotalElements());
     }
 
-    @CachePut(value = "cache1", key = "'allUsers'")
+    @Cacheable(value = "cache1", key = "'allUsers'")
     @Override
     public List<UserDto> findAll() {
+        log.info("Fetching user from the findAll method.");  //Getting data from the database
         return userMapper.userListToUserDtoList(userRepository.findAll());
     }
 
-    @CachePut(value = "cache1", key = "'oneUser_' + #id")
+    @Cacheable(value = "cache1", key = "'oneUser_' + #id")
     @Override
     public UserDto findById(Long id) {
+        log.info("Fetching user from the findById method.");  //Getting data from the database
         var user = userRepository.findById(id).orElseThrow(
                 () -> new UsernameNotFoundException("No user found with this id: " + id)
         );
         return userMapper.userToUserDto(user);
     }
 
+    @CacheEvict(value = "cache1", allEntries = true)
     @Override
     public void delete(Long id) {
         var user = userRepository.findById(id).orElseThrow(
@@ -104,6 +111,7 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    @CacheEvict(value = "cache1", allEntries = true)
     @Override
     public UpdateResponse changePassword(PasswordRequest request, Principal connectedUser) {
         var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
@@ -129,6 +137,7 @@ public class UserServiceImpl implements UserService {
                 .build();
     }
 
+    @CacheEvict(value = "cache1", allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     @Override
     public UpdateResponse update(String email, UpdateUserDto updateUserDto) {
@@ -186,9 +195,10 @@ public class UserServiceImpl implements UserService {
         province.setCountyList(Collections.singletonList(county));
     }
 
-    @CachePut(value = "cache1", key = "'user_' + #city + #minAge")
+    @Cacheable(value = "cache1", key = "'user_' + #city + #minAge")
     @Override
     public List<Map<String, Object>> countUsersByCity(String city, Integer minAge) {
+        log.info("Fetching user from the countUsersByCity method.");  //Getting data from the database
         var result = userRepository.countUsersByCityAndAge(city, minAge);
 
         return result.stream()
