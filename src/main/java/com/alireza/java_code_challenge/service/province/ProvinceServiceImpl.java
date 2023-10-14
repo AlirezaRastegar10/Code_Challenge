@@ -6,7 +6,6 @@ import com.alireza.java_code_challenge.entity.Province;
 import com.alireza.java_code_challenge.mappers.ProvinceMapperImpl;
 import com.alireza.java_code_challenge.repository.ProvinceRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -24,7 +23,6 @@ public class ProvinceServiceImpl implements ProvinceService {
         return provinceRepository.save(province);
     }
 
-    @CachePut(value = "cache1", key = "'province_' + #id")
     @Override
     public Optional<Province> findById(Long id) {
         return provinceRepository.findById(id);
