@@ -22,6 +22,7 @@ import com.alireza.java_code_challenge.service.confirmationcode.ConfirmationCode
 import com.alireza.java_code_challenge.service.province.ProvinceServiceImpl;
 import com.alireza.java_code_challenge.service.user.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -48,6 +49,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final TokenRepository tokenRepository;
 
+    @CacheEvict(value = "cache1", allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     public RegisterResponse register(RegisterRequest request) {
 
@@ -75,6 +77,7 @@ public class AuthenticationService {
         }
     }
 
+    @CacheEvict(value = "cache1", allEntries = true)
     public AuthenticationResponse confirmRegistration(String email, String confirmationCode) {
         // Retrieve the user by email
         var user = userRepository.findByEmail(email).orElseThrow(
@@ -129,6 +132,7 @@ public class AuthenticationService {
         tokenRepository.save(token);
     }
 
+    @CacheEvict(value = "cache1", allEntries = true)
     public AuthenticationResponse login(AuthenticationRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
